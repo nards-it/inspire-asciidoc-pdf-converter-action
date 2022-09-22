@@ -22,11 +22,12 @@ git checkout "$GITHUB_SHA" -B ${GITHUB_REF##*/}
 # Executes any arbitrary shell command (such as packages installation and environment setup)
 # before starting build.
 # If no command is provided, the default value is just an echo command.
+echo "Running pre build command."
 eval "$INPUT_PRE_BUILD"
 
 echo "Converting AsciiDoc files to HTML and PDF"
-eval find . $INPUT_FIND_PARAMS -name "*$INPUT_ADOC_FILE_EXT" -exec asciidoctor -b html $INPUT_ASCIIDOCTOR_PARAMS {} \\\;
-eval find . $INPUT_FIND_PARAMS -name "*$INPUT_ADOC_FILE_EXT" -exec asciidoctor-pdf -b pdf -a icons=font -a icon-set=pf $INPUT_ASCIIDOCTOR_PARAMS {} \\\;
+eval find . $INPUT_FIND_PARAMS -name "\*$INPUT_ADOC_FILE_EXT" -exec asciidoctor -b html $INPUT_ASCIIDOCTOR_PARAMS {} \\\;
+eval find . $INPUT_FIND_PARAMS -name "\*$INPUT_ADOC_FILE_EXT" -exec asciidoctor-pdf -b pdf -a icons=font -a icon-set=pf $INPUT_ASCIIDOCTOR_PARAMS {} \\\;
 find . -name "README.html" -execdir ln -s "README.html" "index.html" \;
 
 # Executes any post-processing command provided by the user, before changes are committed.
